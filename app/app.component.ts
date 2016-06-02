@@ -13,7 +13,7 @@ import { Component } from 'angular2/core';
 
 //Controller class definition
 export class AppComponent {
-  //created a public property called task of type Task
+  //created a public property called tasks of type Task
   public tasks: Task[];  // Task[] (or Array<Task>) identifies tasks as an array of Task objects
   constructor(){
     this.tasks = [
