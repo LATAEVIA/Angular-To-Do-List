@@ -1,0 +1,17 @@
+index.html
+app/app.component.ts
+app/main.ts
+.gitignore
+package.json
+tsconfig.json
+typings.json
+$ npm install bower -g
+$ bower init
+Then, any time we need a frontend dependency we can use bower install packagename --save
+gulpfile.js
+npm install
+gulp build
+gulp serve
+$ bower install bootstrap --save
+$ gulp bower
+$ gulp serve
