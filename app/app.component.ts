@@ -1,4 +1,5 @@
-import { Component } from 'angular2/core';
+import { Component, EventEmitter } from 'angular2/core';
+
 
 @Component({
   selector: 'task-list',
@@ -6,6 +7,7 @@ import { Component } from 'angular2/core';
   //used the inputs key, and set it equal to an array with one string in it: taskList
   //The inputs key gives Angular a list of arguments to expect when this component is instantiated, and it creates properties by the same name in the child component to store the incoming data
   inputs: ['taskList'],
+  outputs: ['onTaskSelect'],
   template: `
   <h3 *ngFor="#currentTask of taskList" (click)="taskClicked(currentTask)">
     {{ currentTask.description }}
@@ -13,12 +15,19 @@ import { Component } from 'angular2/core';
   `
 })
 
+//TaskListComponent is getting the click event from its view, and applying it to the methods in its Controller class definition, calling the taskClicked method
 export class TaskListComponent {
   //we define a public property to hold an array of Task Models
   //taskList to match our input key
   public taskList: Task[];
   taskClicked(clickedTask: Task): void {
     console.log(clickedTask);
+  }
+  //create a property to hold the Event Emitter object for our output
+  public onTaskSelect: EventEmitter<Task>;
+  //instantiate the Event Emitter object in the child component constructor.
+  constructor() {
+    this.onTaskSelect = new EventEmitter();
   }
 }
 
