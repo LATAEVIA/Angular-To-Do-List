@@ -1,12 +1,35 @@
 import { Component } from 'angular2/core';
 
 @Component({
+  selector: 'task-list',
+  //in order for the TaskListComponent to display our tasks, we need to tell the component which tasks we want displayed
+  //used the inputs key, and set it equal to an array with one string in it: taskList
+  //The inputs key gives Angular a list of arguments to expect when this component is instantiated, and it creates properties by the same name in the child component to store the incoming data
+  inputs: ['taskList'],
+  template: `
+  <h3 *ngFor="#currentTask of taskList" (click)="taskClicked(currentTask)">
+    {{ currentTask.description }}
+  </h3>
+  `
+})
+
+export class TaskListComponent {
+  //we define a public property to hold an array of Task Models
+  //taskList to match our input key
+  public taskList: Task[];
+  taskClicked(clickedTask: Task): void {
+    console.log(clickedTask);
+  }
+}
+
+@Component({
   selector: 'my-app',
+  directives: [TaskListComponent],
   //View
   template: `
     <div class="container">
       <h1>To-Do List</h1>
-      <h3 *ngFor="#task of tasks">{{ task.description }}</h3>
+      <task-list [taskList]="tasks"></task-list>
     </div>
   `
 })
@@ -23,6 +46,9 @@ export class AppComponent {
       new Task("Do the laundry.", 3)
     ];
   }
+  taskWasSelected(clickedTask: Task): void {
+    console.log(clickedTask);
+  }
 }
 
 // Model class
@@ -32,3 +58,6 @@ export class Task {
 
   }
 }
+
+// <h3 *ngFor="#task of tasks" (click)="taskWasSelected(task)">
+//   {{ task.description }}
