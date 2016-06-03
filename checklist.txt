@@ -1,3 +1,4 @@
+apm install atom-typescript
 index.html
 app/app.component.ts
 app/main.ts
