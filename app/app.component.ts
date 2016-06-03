@@ -8,8 +8,11 @@ import { Component, EventEmitter } from 'angular2/core';
   //The inputs key gives Angular a list of arguments to expect when this component is instantiated, and it creates properties by the same name in the child component to store the incoming data
   inputs: ['taskList'],
   outputs: ['onTaskSelect'],
+  //either add or remove the class selected based on whether or not the condition to the right of the equals sign is true: currentTask === selectedTask. So, if the currentTask displayed by the *ngFor loop is equal to the selectedTask component property, then the <h3> is highlighted blue.
   template: `
-  <h3 *ngFor="#currentTask of taskList" (click)="taskClicked(currentTask)">
+  <h3 *ngFor="#currentTask of taskList"
+    (click)="taskClicked(currentTask)"
+    [class.selected]="currentTask === selectedTask">
     {{ currentTask.description }}
   </h3>
   `
@@ -22,12 +25,15 @@ export class TaskListComponent {
   public taskList: Task[];
   //create a property to hold the Event Emitter object for our output
   public onTaskSelect: EventEmitter<Task>;
+  //create a property to keep track of which task object was last clicked on
+  public selectedTask: Task;
   //instantiate the Event Emitter object in the child component constructor.
   constructor() {
     this.onTaskSelect = new EventEmitter();
   }
   taskClicked(clickedTask: Task): void {
     console.log('child', clickedTask);
+    this.selectedTask = clickedTask;
     this.onTaskSelect.emit(clickedTask);
   }
 }
