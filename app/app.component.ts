@@ -20,14 +20,15 @@ export class TaskListComponent {
   //we define a public property to hold an array of Task Models
   //taskList to match our input key
   public taskList: Task[];
-  taskClicked(clickedTask: Task): void {
-    console.log(clickedTask);
-  }
   //create a property to hold the Event Emitter object for our output
   public onTaskSelect: EventEmitter<Task>;
   //instantiate the Event Emitter object in the child component constructor.
   constructor() {
     this.onTaskSelect = new EventEmitter();
+  }
+  taskClicked(clickedTask: Task): void {
+    console.log('child', clickedTask);
+    this.onTaskSelect.emit(clickedTask);
   }
 }
 
@@ -36,10 +37,16 @@ export class TaskListComponent {
   directives: [TaskListComponent],
   //View
   template: `
-    <div class="container">
-      <h1>To-Do List</h1>
-      <task-list [taskList]="tasks"></task-list>
-    </div>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <!--use the value of the parent property tasks in its input [taskList]-->
+    <!--tell the <task-list> component to connect its output onTaskSelect, our custom event emitter, to the parent method taskWasSelected-->
+    <!--Because it is a custom event, we receive the actual event itself, defined by the argument $event-->
+    <task-list
+      [taskList]="tasks"
+      (onTaskSelect)="taskWasSelected($event)">
+    </task-list>
+  </div>
   `
 })
 
